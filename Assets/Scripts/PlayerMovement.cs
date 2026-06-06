@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Shell") && collision.gameObject.activeSelf)
         {
             collision.gameObject.SetActive(false);
+            Invoke("playSound", 0);
             shellCounter += 1;
             counterText.text = "Shells: " + shellCounter;
             StartCoroutine(Respawn(collision,Rand.Next(2,12)));
@@ -47,5 +48,10 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds (time);
         collision.gameObject.SetActive(true);
+    }
+
+    void playSound()
+    {
+        
     }
 }
