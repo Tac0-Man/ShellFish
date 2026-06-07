@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Shell
+  - Start
+  - Quit
+  - Logo
   layers:
   - Default
   - TransparentFX
