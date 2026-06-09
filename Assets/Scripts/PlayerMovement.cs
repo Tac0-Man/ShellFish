@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
    
     void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        MoveSideways();
     }
 
     public void moreSpeed()
@@ -57,6 +57,22 @@ public class PlayerMovement : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
        moveInput = context.ReadValue<Vector2>();
+    }
+
+    public void MoveSideways()
+    {
+        bool movingSideways = moveInput.x != 0;
+
+        if(movingSideways)
+        {
+            rb.linearVelocity = moveInput * moveSpeed;
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(0,0);
+        }
+
+        //rb.linearVelocity = moveInput * moveSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
