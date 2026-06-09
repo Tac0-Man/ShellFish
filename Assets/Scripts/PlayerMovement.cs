@@ -6,10 +6,14 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     
-    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField]private int shellUpgrade = 1;
+    [SerializeField]private int speedUpgrade = 1; 
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private int shellCounter = 0;
+    private float slow = .1f;
+    private float speed = .5f;
     public TMP_Text counterText;
     private System.Random Rand = new System.Random();
     
@@ -25,6 +29,30 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = moveInput * moveSpeed;
     }
 
+    public void moreSpeed()
+    {
+        if (shellCounter > 19)
+        {
+            speedUpgrade += 1;
+            moveSpeed += speed;
+            shellCounter -= 20;
+        }
+        
+        counterText.text = "Shells: " + shellCounter;
+    }
+
+    public void moreShell()
+    {
+        if (shellCounter > 9)
+        {
+            shellUpgrade += 1;
+            shellCounter -= 10;
+            moveSpeed -= slow;
+        }
+
+        counterText.text = "Shells: " + shellCounter;
+    }
+
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -37,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             Invoke("playSound", 0);
-            shellCounter += 1;
+            shellCounter += shellUpgrade;
             counterText.text = "Shells: " + shellCounter;
             StartCoroutine(Respawn(collision,Rand.Next(2,12)));
         } 
