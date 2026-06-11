@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField]private int shellUpgrade = 1;
     [SerializeField]private int speedUpgrade = 1; 
+    [SerializeField] private int SizeUpgrade = 1;
     private Rigidbody2D rb;
     private Vector2 moveInput;
     private int shellCounter = 0;
     private float slow = .1f;
     private float speed = .5f;
+    private float scaleX = 1;
+    private float scaleY = 1f;
     public TMP_Text counterText;
     private System.Random Rand = new System.Random();
     
@@ -29,6 +33,20 @@ public class PlayerMovement : MonoBehaviour
         MoveSideways();
     }
 
+    public void moreSize()
+    {
+        if (shellCounter > 99)
+        {
+            SizeUpgrade += 1;
+            scaleX += 0.5f;
+            scaleY += 0.5f;
+            transform.localScale = new Vector3(scaleX, scaleY, 0);
+            shellCounter -= 100;
+        }
+
+        counterText.text = "Shells: " + shellCounter;
+    }
+
     public void moreSpeed()
     {
         if (shellCounter > 19)
@@ -36,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             speedUpgrade += 1;
             moveSpeed += speed;
             shellCounter -= 20;
+            
         }
         
         counterText.text = "Shells: " + shellCounter;
