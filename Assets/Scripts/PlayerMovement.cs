@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         if (shellCounter > 99)
         {
             SizeUpgrade += 1;
-            scaleX += 0.5f;
-            scaleY += 0.5f;
+            scaleX += 0.2f;
+            scaleY += 0.2f;
             transform.localScale = new Vector3(scaleX, scaleY, 0);
             shellCounter -= 100;
         }
@@ -54,7 +54,9 @@ public class PlayerMovement : MonoBehaviour
             speedUpgrade += 1;
             moveSpeed += speed;
             shellCounter -= 20;
-            
+            scaleX -= 0.02f;
+            scaleY -= 0.02f;
+            transform.localScale = new Vector3(scaleX, scaleY, 0);
         }
         
         counterText.text = "Shells: " + shellCounter;

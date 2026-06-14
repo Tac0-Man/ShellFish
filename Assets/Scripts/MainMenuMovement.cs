@@ -17,8 +17,24 @@ public class MainMenuMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.linearVelocity = moveInput * moveSpeed;
+        MoveSideways();
     }
+
+    public void MoveSideways()
+    {
+        bool movingSideways = moveInput.x != 0;
+
+        if(movingSideways)
+        {
+            rb.linearVelocity = moveInput * moveSpeed;
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(0,0);
+        }
+
+    }
+
 
 
     public void Move(InputAction.CallbackContext context)
