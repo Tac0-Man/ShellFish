@@ -8,6 +8,8 @@ public class PlayerDetect : MonoBehaviour
     [SerializeField] private string tagDetect;
     [SerializeField] private int waitTime = 4;
     public UnityEvent detected;
+    public UnityEvent playerEnter;
+    public UnityEvent playerLeft;
 
 
 
@@ -16,12 +18,18 @@ public class PlayerDetect : MonoBehaviour
         if (collision.CompareTag(tagDetect) && collision.gameObject.activeSelf)
         {
             StartCoroutine(DetectAfter(collision, waitTime));
+            playerEnter.Invoke();
         }
     }
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        StopAllCoroutines();
+        
+         if (collision.CompareTag(tagDetect) && collision.gameObject.activeSelf)
+        {
+            playerLeft.Invoke();
+            StopAllCoroutines();
+        }
     }
 
     IEnumerator DetectAfter (Collider2D collision, int time)

@@ -20,11 +20,13 @@ public class PlayerMovement : MonoBehaviour
     private float scaleY = 1f;
     public TMP_Text counterText;
     private System.Random Rand = new System.Random();
+    public Animator animator;
     
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+      //animator.GetComponentInChildren<Animator>();
     }
 
    
@@ -33,14 +35,20 @@ public class PlayerMovement : MonoBehaviour
         MoveSideways();
     }
 
+    public void ScaleUp(float amount)
+    {
+        scaleX += amount;
+        scaleY += amount;
+        
+        transform.localScale = new Vector3(scaleX, scaleY, 0);
+    }
+
     public void moreSize()
     {
         if (shellCounter > 99)
         {
             SizeUpgrade += 1;
-            scaleX += 0.2f;
-            scaleY += 0.2f;
-            transform.localScale = new Vector3(scaleX, scaleY, 0);
+            ScaleUp(0.2f);
             shellCounter -= 100;
         }
 
@@ -54,9 +62,7 @@ public class PlayerMovement : MonoBehaviour
             speedUpgrade += 1;
             moveSpeed += speed;
             shellCounter -= 20;
-            scaleX -= 0.02f;
-            scaleY -= 0.02f;
-            transform.localScale = new Vector3(scaleX, scaleY, 0);
+            ScaleUp(-0.2f);
         }
         
         counterText.text = "Shells: " + shellCounter;
@@ -77,7 +83,19 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context)
     {
-       moveInput = context.ReadValue<Vector2>();
+       
+
+       animator.SetBool("isWalk", true);
+        if (context.canceled)
+        {
+            animator.SetBool("isWalk", false);
+            animator.SetFloat("LastInputX", moveInput.x);
+            animator.SetFloat("LastInputY", moveInput.y);
+
+        }
+         moveInput = context.ReadValue<Vector2>();
+        animator.SetFloat("InputX", moveInput.x);
+        animator.SetFloat("InputY", moveInput.y);
     }
 
     public void MoveSideways()
@@ -92,6 +110,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0,0);
         }
+
+        
 
         //rb.linearVelocity = moveInput * moveSpeed;
     }

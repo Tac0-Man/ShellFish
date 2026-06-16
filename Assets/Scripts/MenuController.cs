@@ -15,14 +15,18 @@ public class MenuController : MonoBehaviour
    
     void Update()
     {
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && shopCanvas.activeSelf == false)
         {
             menuCanvas.SetActive(!menuCanvas.activeSelf);
         }
 
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            shopCanvas.SetActive(!shopCanvas.activeSelf);
+            shopCanvas.SetActive(true);
+        }
+        else if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            shopCanvas.SetActive(false);
         }
     }
 }
