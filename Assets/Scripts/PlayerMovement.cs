@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,11 +22,13 @@ public class PlayerMovement : MonoBehaviour
     public TMP_Text counterText;
     private System.Random Rand = new System.Random();
     public Animator animator;
+    private AudioSource audioSource;
     
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
       //animator.GetComponentInChildren<Animator>();
     }
 
@@ -41,6 +44,14 @@ public class PlayerMovement : MonoBehaviour
         scaleY += amount;
         
         transform.localScale = new Vector3(scaleX, scaleY, 0);
+    }
+
+    public void endGame()
+    {
+        if (shellCounter > 999)
+        {
+            SceneManager.LoadScene(3);
+        }
     }
 
     public void moreSize()
@@ -121,6 +132,8 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag("Shell") && collision.gameObject.activeSelf)
         {
             collision.gameObject.SetActive(false);
+            audioSource.pitch = UnityEngine.Random.Range(0.5f, 1.5f);
+            audioSource.Play();
             Invoke("playSound", 0);
             shellCounter += shellUpgrade;
             counterText.text = "Shells: " + shellCounter;
